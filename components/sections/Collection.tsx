@@ -1,11 +1,12 @@
 import { Lock } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import { CONTAINER } from "@/lib/constants";
+import Image from "next/image";
 
 const IMAGES = [
-  "/images/collection-1.svg",
-  "/images/collection-2.svg",
-  "/images/collection-3.svg",
+  "/images/collection001(1).PNG",
+  "/images/collection001(2).PNG",
+  "/images/collection001(3).PNG",
 ];
 
 export function Collection() {
@@ -30,9 +31,10 @@ export function Collection() {
             <div
               aria-hidden
               className="aspect-4/5 rounded-card bg-cover bg-center opacity-60 transition-opacity duration-500 ease-in-out hover:opacity-[0.85]"
-              style={{ backgroundImage: `url(${src})` }}
+              style={{ backgroundImage: `url('${src}')` }}
             />
           </Reveal>
+        // <Image src={src} alt="Image" width={300} height={300}/>
         ))}
       </div>
 
