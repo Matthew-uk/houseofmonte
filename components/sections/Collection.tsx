@@ -4,7 +4,7 @@ import { CONTAINER } from "@/lib/constants";
 import Image from "next/image";
 
 const IMAGES = [
-  "/images/collection001(1).PNG",
+  "/images/collection001(2).JPG",
   "/images/collection001(2).PNG",
   "/images/collection001(3).PNG",
 ];

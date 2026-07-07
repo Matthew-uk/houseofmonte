@@ -9,12 +9,17 @@ import { Reveal } from "@/components/ui/Reveal";
 import { SOCIAL, CONTAINER } from "@/lib/constants";
 
 const IMAGES = [
-  "/images/ig-1.svg",
-  "/images/ig-2.svg",
-  "/images/ig-3.svg",
-  "/images/ig-4.svg",
-  "/images/ig-5.svg",
-  "/images/ig-6.svg",
+  "/images/instagram/instagram1.png",
+//   "/images/instagram/instagram2.DNG",
+  "/images/instagram/instagram3.png",
+  "/images/instagram/instagram4.png",
+  "/images/instagram/instagram5.JPG",
+  "/images/instagram/instagram6.png",
+  "/images/instagram/instagram7.PNG",
+  "/images/instagram/instagram8.JPG",
+  "/images/instagram/instagram9.JPG",
+  "/images/instagram/instagram10.png",
+  "/images/instagram/instagram11.JPG",
 ];
 
 const AUTOPLAY_MS = 5000;

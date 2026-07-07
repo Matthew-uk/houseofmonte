@@ -1,6 +1,6 @@
-// Brand + launch constants for MONTÉ (the È is intentional — never a plain E).
+// Brand + launch constants for MONTÈ (the È is intentional — never a plain E).
 
-export const BRAND = "MONTÉ";
+export const BRAND = "MONTÈ";
 
 // Collection 001 drop: July 22, 2026 00:00 WAT (West Africa Time, UTC+1).
 export const TARGET_DATE = new Date("2026-07-22T00:00:00+01:00");

@@ -28,7 +28,7 @@ export function About() {
           <div className="max-w-md px-8 py-12 md:px-12 md:py-14">
             <Reveal>
               <span className="font-sans text-[11px] uppercase tracking-mega text-[#B8965A]">
-                About MONTÉ
+                About MONTÈ
               </span>
             </Reveal>
 
@@ -44,7 +44,7 @@ export function About() {
 
             <Reveal delay={0.2}>
               <p className="mt-6 max-w-sm text-[15px] leading-8 text-[#C8C8C8] font-display">
-                MONTÉ exists where fashion, culture and experience meet —
+                MONTÈ exists where fashion, culture and experience meet —
                 a premium fashion house born in Port Harcourt, Nigeria.
                 Every collection tells a story.
                 Every event creates unforgettable moments.

@@ -28,7 +28,7 @@ export function BrandFaq() {
         {FAQ_ITEMS.map((item, i) => (
           <Reveal key={item.question} delay={0.05 * i}>
             <details className="group rounded-card border border-[#8E7443]/20 bg-[#090909] transition-colors duration-300 open:border-[#8E7443]/40">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 text-left text-sm uppercase tracking-wider text-[#F5F2EB] transition-colors duration-200 hover:text-gold [&::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 text-left text-sm uppercase tracking-wider text-[#F5F2EB] transition-colors duration-200 hover:text-gold [&::-webkit-details-marker]:hidden font-montserrat">
                 {item.question}
                 <ChevronDown
                   size={16}
@@ -37,7 +37,7 @@ export function BrandFaq() {
                   className="shrink-0 text-[#B8965A] transition-transform duration-300 group-open:rotate-180"
                 />
               </summary>
-              <p className="px-6 pb-6 text-left text-[15px] leading-8 text-[#C8C8C8]">
+              <p className="px-6 pb-6 text-left text-[15px] leading-8 text-[#C8C8C8] font-bodoni">
                 {item.answer}
               </p>
             </details>

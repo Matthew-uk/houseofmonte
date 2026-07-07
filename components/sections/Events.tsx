@@ -46,7 +46,7 @@ export function Events() {
               </p>
 
               <h3 className="mt-8 font-display text-[42px] leading-none text-[#F5F2EB]">
-                MONTÉ
+                MONTÈ
                 <br />
                 Two Year
                 <br />
