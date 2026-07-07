@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600">
+  <defs>
+    <radialGradient id="g" cx="56.1%" cy="46.9%" r="85%">
+      <stop offset="0%" stop-color="hsl(42 25% 12%)"/>
+      <stop offset="45%" stop-color="#0b0a08"/>
+      <stop offset="100%" stop-color="#050505"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="56.1%" cy="46.9%" r="45%">
+      <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.05"/></feComponentTransfer>
+      <feComposite operator="over" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+  <rect width="600" height="600" fill="url(#g)"/>
+  <rect width="600" height="600" fill="url(#glow)"/>
+  <g><line x1="511" y1="402" x2="105" y2="316" stroke="#f5f0e8" stroke-opacity="0.020" stroke-width="1.4"/><line x1="519" y1="283" x2="150" y2="529" stroke="#f5f0e8" stroke-opacity="0.030" stroke-width="1.0"/><line x1="118" y1="300" x2="412" y2="366" stroke="#f5f0e8" stroke-opacity="0.015" stroke-width="1.2"/></g>
+  <rect width="600" height="600" filter="url(#grain)" opacity="0.5"/>
+</svg>

@@ -1,26 +1,104 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================================
+   MONTÉ Design System — exact tokens (first-prompt.md §3)
+   Tailwind v4 CSS-first theme. Tokens here become utilities,
+   e.g. --color-gold -> bg-gold / text-gold / border-gold.
+   ============================================================ */
+@theme {
+  /* Surfaces */
+  --color-bg-primary: #050505; /* Page background — near-black */
+  --color-bg-card: #0d0d0d; /* Card backgrounds */
+  --color-bg-card-elevated: #111111; /* Elevated cards (signup) */
+  --color-bg-input: #0a0a0a; /* Input fields */
+
+  /* Gold accent */
+  --color-gold: #c9a84c; /* Primary accent — warm gold */
+  --color-gold-muted: #a08a3e; /* Muted gold, secondary uses */
+  --color-gold-bright: #d4b85a; /* Hover / active gold */
+
+  /* Text */
+  --color-white: #ffffff; /* Headlines */
+  --color-text-primary: #f5f0e8; /* Body — warm off-white */
+  --color-text-secondary: #8a8a8a; /* Muted / helper text */
+  --color-text-tertiary: #5a5a5a; /* Very muted text */
+
+  /* Borders (kept as color tokens for border-* utilities) */
+  --color-border-subtle: rgba(255, 255, 255, 0.06);
+  --color-border-medium: rgba(255, 255, 255, 0.12);
+  --color-border-gold: #c9a84c;
+
+  /* Fonts (loaded via next/font in lib/fonts.ts) */
+  --font-display: var(--font-playfair), Georgia, serif;
+  --font-body: var(--font-inter), -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains), monospace;
+  --font-bodoni: var(--font-bodoni-moda), Georgia, serif;
+  --font-montserrat: var(--font-montserrat-sans), -apple-system, sans-serif;
+
+  /* Letter spacing */
+  --tracking-wide: 0.15em; /* Section headings */
+  --tracking-wider: 0.25em; /* Small labels, e.g. INVITATION ONLY */
+  --tracking-mega: 0.35em; /* Nav links, footer */
+
+  /* Type scale (utilities: text-hero, text-section, text-small, text-tiny, …) */
+  --text-hero: clamp(2.5rem, 5vw, 4.5rem); /* "A NEW ERA BEGINS." */
+  --text-section: clamp(1rem, 2vw, 1.35rem); /* Section headings */
+  --text-card-title: clamp(1.1rem, 1.8vw, 1.5rem); /* Card titles */
+  --text-body: 1rem;
+  --text-small: 0.8rem; /* Helper text, labels */
+  --text-tiny: 0.65rem; /* Countdown labels, fine print */
+
+  /* Radius */
+  --radius-card: 8px;
+  --radius-button: 4px;
+  --radius-input: 4px;
+
+  /* Gold-line signature animation */
+  --animate-gold-line: gold-line 1.2s cubic-bezier(0, 0, 0.2, 1) forwards;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes gold-line {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
   }
 }
 
+/* ---- Base ---- */
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  line-height: 1.7; /* generous for readability on dark */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Accessible focus — gold outline everywhere */
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* Respect reduced motion globally as a safety net; components also
+   guard via useReducedMotion(). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
