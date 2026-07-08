@@ -32,6 +32,5 @@ export function getDb(): Promise<Db> {
     const client = getOrCreateClient();
     dbPromise = client.connect().then((c) => c.db());
   }
-  console.log(dbPromise);
   return dbPromise;
 }
