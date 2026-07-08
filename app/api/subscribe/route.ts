@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
 
     if (outcome === "created") {
       sendWelcomeEmail(result.email).catch(() => {});
-      console.log("Email sent!")
+    //   console.log("Email sent!")
       return NextResponse.json(
         { status: "created", message: "Welcome to the list." },
         { status: 201 },

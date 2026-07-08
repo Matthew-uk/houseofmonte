@@ -13,8 +13,8 @@ export async function sendWelcomeEmail(to: string): Promise<void> {
       html,
       text,
     });
-    console.log(transporter);
-    console.log("Mail sent /send.ts")
+    // console.log(transporter);
+    // console.log("Mail sent /send.ts")
   } catch (err) {
     console.error("Failed to send welcome email:", err);
   }
