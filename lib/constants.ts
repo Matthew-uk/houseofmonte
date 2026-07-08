@@ -13,9 +13,6 @@ export const SOCIAL = {
   email: "mailto:hello@montedeluxe.com",
 } as const;
 
-// localStorage key for the demo email signup.
-export const SIGNUP_STORAGE_KEY = "monte:subscribers";
-
 // Shared layout rhythm: horizontal page padding + vertical space between
 // major sections, and the unified content container width.
 export const SECTION_X = "px-5 sm:px-10";

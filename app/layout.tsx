@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { playfair, inter, jetbrainsMono } from "@/lib/fonts";
 import { Bodoni_Moda, Montserrat } from "next/font/google";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { MonteToaster } from "@/components/ui/Toast";
 import {
   SITE_URL,
   SEO_NAME,
@@ -96,6 +97,7 @@ export default function RootLayout({
       <body className="min-h-screen bg-bg-primary font-body text-text-primary">
         {children}
         <JsonLd />
+        <MonteToaster />
       </body>
     </html>
   );

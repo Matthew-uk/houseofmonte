@@ -4,6 +4,143 @@ Every meaningful change to this project is logged here with date, what changed, 
 
 ---
 
+## 2026-07-08 — Full waitlist system: MongoDB, admin dashboard, confirmation emails
+
+**Context.** Converted the demo email signup (localStorage-only) into a production waitlist system
+backed by MongoDB. Includes a premium admin dashboard, SMTP confirmation emails via Hostinger, a
+luxury toast notification system, and secure single-admin authentication — all matching the existing
+dark/gold Monte Deluxe design language.
+
+**New dependencies (5).**
+- `mongodb` — native driver for subscriber/admin storage
+- `nodemailer` + `@types/nodemailer` — SMTP email via Hostinger
+- `bcryptjs` — admin password hashing
+- `sonner` — lightweight toast notifications (3.5kB, fully customizable)
+
+**Database layer.**
+- `lib/db.ts` — MongoDB connection singleton, cached on `globalThis` in dev (HMR-safe), deferred
+  connect on first use so builds succeed without a live database URI
+- `lib/models/subscriber.ts` — `SubscriberDoc` interface, auto-created indexes (email unique,
+  subscribedAt desc, compound status+subscribedAt)
+- `lib/validation.ts` — server-side email validation (RFC 5321 length, injection prevention)
+- `lib/rate-limit.ts` — in-memory sliding-window rate limiter with periodic cleanup
+
+**API routes (7 endpoints).**
+- `POST /api/subscribe` — public signup: validates, rate-limits (5/min/IP), inserts into MongoDB,
+  fires welcome email (non-blocking), returns `201` (new) or `200` (duplicate, not an error)
+- `POST /api/admin/login` — authenticates against bcrypt-hashed admin password, sets HTTP-only
+  session cookie; rate-limited to 5/15min/IP
+- `POST /api/admin/logout` — clears session cookie
+- `GET /api/admin/subscribers` — paginated list with search, sort, date-range filter
+- `DELETE /api/admin/subscribers` — bulk delete by IDs
+- `DELETE /api/admin/subscribers/[id]` — single delete
+- `GET /api/admin/stats` — dashboard stats via `$facet` aggregation (total, today, week, month,
+  growth %, recent 5)
+- `GET /api/admin/export` — CSV download of all subscribers
+
+**Authentication & security.**
+- `lib/auth/session.ts` — HMAC-SHA256 signed session tokens using Web Crypto API (Edge Runtime
+  compatible), 24-hour expiration, HTTP-only + secure + SameSite=Lax cookies
+- `middleware.ts` — protects `/admin/*` (redirects to login) and `/api/admin/*` (returns 401)
+- `scripts/seed-admin.ts` — one-time admin seeder reading from `.env.local`, upserts with bcrypt
+  cost-factor 12; run via `npx tsx scripts/seed-admin.ts`
+- No JWT, no localStorage auth, no client-side secrets
+
+**Email system.**
+- `lib/email/transporter.ts` — Nodemailer SMTP singleton (Hostinger: smtp.hostinger.com:465, SSL)
+- `lib/email/templates/welcome.ts` — luxury HTML email: dark `#050505` background, gold `#c9a84c`
+  accents, inline CSS for maximum client compatibility, perks list, CTA button, social links,
+  footer; matching plaintext version
+- `lib/email/send.ts` — fire-and-forget wrapper; email failure never blocks the signup response
+
+**Toast system.**
+- `components/ui/Toast.tsx` — Sonner `<Toaster>` with Monte Deluxe aesthetic: glass morphism
+  (rgba+backdrop-blur), dark surfaces, gold accents, custom per-variant left-border colors
+  (success=gold, error=gold-muted, info=subtle border)
+- Integrated into root `app/layout.tsx`
+
+**Frontend changes.**
+- `components/sections/EmailSignup.tsx` — replaced localStorage with `POST /api/subscribe`;
+  loading spinner during submission; toast notifications for success/duplicate/error; inline
+  validation preserved for instant feedback
+- `lib/constants.ts` — removed `SIGNUP_STORAGE_KEY` (no longer used)
+
+**Admin dashboard (new).**
+- `app/admin/login/page.tsx` — branded login page (dark, centered card, Monte wordmark, noindexed)
+- `app/admin/page.tsx` — dashboard overview
+- `app/admin/layout.tsx` — shell with sidebar (desktop) / hamburger header (mobile)
+- `components/admin/LoginForm.tsx` — email + password form with loading state
+- `components/admin/Sidebar.tsx` — fixed sidebar with brand, overview link, logout
+- `components/admin/MobileAdminHeader.tsx` — responsive mobile header with dropdown nav
+- `components/admin/StatsCards.tsx` — 4 metric cards (total, today, week, month) with animated
+  counters and growth percentage indicator
+- `components/admin/SubscribersTable.tsx` — full data table: checkbox selection, sortable columns
+  (email, date), search, date-range filter, bulk delete, single delete, copy email, row hover,
+  skeleton loading, empty state
+- `components/admin/SearchBar.tsx` — debounced search with clear button
+- `components/admin/DateFilter.tsx` — from/to date inputs with clear
+- `components/admin/TablePagination.tsx` — page navigation with showing/total display
+- `components/admin/ExportButton.tsx` — CSV download trigger
+- `components/admin/EmptyState.tsx` — illustration + message for empty tables
+- `components/ui/Spinner.tsx` — gold loading spinner (used in buttons)
+- `components/ui/SkeletonCard.tsx` — skeleton loaders for stats cards and table rows
+- `hooks/useAdminData.ts` — `useStats()` (auto-refresh 30s) and `useSubscribers()` with full
+  param reactivity and abort-controller cleanup
+- `hooks/useDebounce.ts` — generic debounce hook (used for search)
+- `hooks/useAnimatedCounter.ts` — requestAnimationFrame counter with ease-out cubic
+
+**Environment variables.**
+- `.env.example` — committed template with all required vars documented
+- `.env.local` — gitignored file with actual values (MONGODB_URI, ADMIN_EMAIL, ADMIN_PASSWORD,
+  SESSION_SECRET, SMTP_HOST/PORT/SECURE/USER/PASS, EMAIL_FROM)
+
+**Architecture decisions.**
+- Native `mongodb` driver (no Mongoose) — one collection, simple queries, no schema overhead
+- HMAC session tokens over JWT — simpler, no library, Edge-compatible
+- Fire-and-forget emails — signup response never delayed by SMTP
+- Duplicate emails return 200 (not error) — informational toast, never a red error state
+- Admin dashboard is fully client-rendered (no SSR needed for admin pages)
+- All existing design tokens reused — no new CSS variables added
+- All admin components use the same font families, colors, borders, and radius tokens
+
+**Files added (35).**
+`.env.example`, `middleware.ts`, `scripts/seed-admin.ts`, `lib/db.ts`, `lib/validation.ts`,
+`lib/rate-limit.ts`, `lib/models/subscriber.ts`, `lib/services/subscriber.service.ts`,
+`lib/services/auth.service.ts`, `lib/auth/session.ts`, `lib/email/transporter.ts`,
+`lib/email/send.ts`, `lib/email/templates/welcome.ts`, `app/api/subscribe/route.ts`,
+`app/api/admin/login/route.ts`, `app/api/admin/logout/route.ts`,
+`app/api/admin/subscribers/route.ts`, `app/api/admin/subscribers/[id]/route.ts`,
+`app/api/admin/stats/route.ts`, `app/api/admin/export/route.ts`,
+`app/admin/layout.tsx`, `app/admin/page.tsx`, `app/admin/login/page.tsx`,
+`components/ui/Toast.tsx`, `components/ui/Spinner.tsx`, `components/ui/SkeletonCard.tsx`,
+`components/admin/LoginForm.tsx`, `components/admin/Sidebar.tsx`,
+`components/admin/MobileAdminHeader.tsx`, `components/admin/StatsCards.tsx`,
+`components/admin/SubscribersTable.tsx`, `components/admin/SearchBar.tsx`,
+`components/admin/DateFilter.tsx`, `components/admin/TablePagination.tsx`,
+`components/admin/ExportButton.tsx`, `components/admin/EmptyState.tsx`,
+`hooks/useAdminData.ts`, `hooks/useDebounce.ts`, `hooks/useAnimatedCounter.ts`
+
+**Files modified (3).**
+`app/layout.tsx` (added `<MonteToaster />`), `components/sections/EmailSignup.tsx` (replaced
+localStorage with API + toast), `lib/constants.ts` (removed `SIGNUP_STORAGE_KEY`)
+
+**Verified (2026-07-08).** `npm run lint` — zero errors (1 pre-existing warning in Collection.tsx).
+`npm run build` — clean, 16 routes (10 static, 7 dynamic API + middleware). All admin routes
+protected by middleware. Admin login page noindexed.
+
+**Setup steps for new environments.**
+1. Copy `.env.example` to `.env.local` and fill in all values
+2. Run `npx tsx scripts/seed-admin.ts` to create the admin account
+3. `npm run dev` — signup form posts to `/api/subscribe`, admin at `/admin/login`
+
+**Known limitations.**
+- Rate limiter is in-memory (per-process); resets on serverless cold start
+- No email unsubscribe mechanism yet (can be added when needed)
+- Admin session is 24h fixed — no sliding window refresh
+- CSV export loads all subscribers into memory (fine for <100k rows)
+
+---
+
 ## 2026-07-07 — Complete SEO/GEO implementation + carousel page-count fix
 
 **Context.** Full technical-SEO, local-SEO and GEO (AI-search) implementation for the brand as
