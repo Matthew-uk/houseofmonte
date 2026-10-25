@@ -17,10 +17,8 @@ let dbPromise: Promise<Db> | null = null;
 function getOrCreateClient(): MongoClient {
   const uri = getUri();
 
-  if (process.env.NODE_ENV === "production") {
-    return new MongoClient(uri, { maxPoolSize: 10 });
-  }
-
+  // Cached on globalThis in every environment: dev survives HMR, and prod
+  // must hand the same connected client to getDb() and getClient().
   if (!globalThis._mongoClient) {
     globalThis._mongoClient = new MongoClient(uri, { maxPoolSize: 10 });
   }
@@ -33,4 +31,11 @@ export function getDb(): Promise<Db> {
     dbPromise = client.connect().then((c) => c.db());
   }
   return dbPromise;
+}
+
+// The connected client, for multi-document transactions
+// (`client.startSession()` + `session.withTransaction`).
+export async function getClient(): Promise<MongoClient> {
+  await getDb();
+  return getOrCreateClient();
 }

@@ -1,104 +1,77 @@
 @import "tailwindcss";
 
 /* ============================================================
-   MONTÉ Design System — exact tokens (first-prompt.md §3)
-   Tailwind v4 CSS-first theme. Tokens here become utilities,
-   e.g. --color-gold -> bg-gold / text-gold / border-gold.
+   MONTÈ design tokens — source of truth is DESIGN.md §2–§7.
+   Tailwind v4 CSS-first theme: --color-fg -> text-fg / bg-fg, etc.
    ============================================================ */
 @theme {
-  /* Surfaces */
-  --color-bg-primary: #050505; /* Page background — near-black */
-  --color-bg-card: #0d0d0d; /* Card backgrounds */
-  --color-bg-card-elevated: #111111; /* Elevated cards (signup) */
-  --color-bg-input: #0a0a0a; /* Input fields */
+  --color-*: initial;
+  --color-bg: #f5f4f0;
+  --color-fg: #0a0a0a;
+  --color-muted: #6b6b6b;
+  --color-line: #dad8d2;
+  --color-surface: #eceae4;
+  --color-accent: #b3261e;
+  --color-inverse: #f5f4f0;
+  --color-transparent: transparent;
+  --color-current: currentColor;
 
-  /* Gold accent */
-  --color-gold: #c9a84c; /* Primary accent — warm gold */
-  --color-gold-muted: #a08a3e; /* Muted gold, secondary uses */
-  --color-gold-bright: #d4b85a; /* Hover / active gold */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
-  /* Text */
-  --color-white: #ffffff; /* Headlines */
-  --color-text-primary: #f5f0e8; /* Body — warm off-white */
-  --color-text-secondary: #8a8a8a; /* Muted / helper text */
-  --color-text-tertiary: #5a5a5a; /* Very muted text */
+  /* Type steps (DESIGN.md §3). Uppercase/tracking applied per use. */
+  --text-meta: 11px;
+  --text-meta--line-height: 16px;
+  --text-meta--letter-spacing: 0.06em;
+  --text-ui: 12px;
+  --text-ui--line-height: 16px;
+  --text-ui--letter-spacing: 0.04em;
+  --text-body: 14px;
+  --text-body--line-height: 22px;
+  --text-title: 16px;
+  --text-title--line-height: 22px;
+  --text-title--letter-spacing: 0.04em;
 
-  /* Borders (kept as color tokens for border-* utilities) */
-  --color-border-subtle: rgba(255, 255, 255, 0.06);
-  --color-border-medium: rgba(255, 255, 255, 0.12);
-  --color-border-gold: #c9a84c;
+  --radius-*: initial;
+  --shadow-*: initial;
 
-  /* Fonts (loaded via next/font in lib/fonts.ts) */
-  --font-display: var(--font-playfair), Georgia, serif;
-  --font-body: var(--font-inter), -apple-system, sans-serif;
-  --font-mono: var(--font-jetbrains), monospace;
-  --font-bodoni: var(--font-bodoni-moda), Georgia, serif;
-  --font-montserrat: var(--font-montserrat-sans), -apple-system, sans-serif;
-
-  /* Letter spacing */
-  --tracking-wide: 0.15em; /* Section headings */
-  --tracking-wider: 0.25em; /* Small labels, e.g. INVITATION ONLY */
-  --tracking-mega: 0.35em; /* Nav links, footer */
-
-  /* Type scale (utilities: text-hero, text-section, text-small, text-tiny, …) */
-  --text-hero: clamp(2.5rem, 5vw, 4.5rem); /* "A NEW ERA BEGINS." */
-  --text-section: clamp(1rem, 2vw, 1.35rem); /* Section headings */
-  --text-card-title: clamp(1.1rem, 1.8vw, 1.5rem); /* Card titles */
-  --text-body: 1rem;
-  --text-small: 0.8rem; /* Helper text, labels */
-  --text-tiny: 0.65rem; /* Countdown labels, fine print */
-
-  /* Radius */
-  --radius-card: 8px;
-  --radius-button: 4px;
-  --radius-input: 4px;
-
-  /* Gold-line signature animation */
-  --animate-gold-line: gold-line 1.2s cubic-bezier(0, 0, 0.2, 1) forwards;
+  --ease-drawer: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@keyframes gold-line {
-  from {
-    transform: scaleX(0);
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
   }
-  to {
-    transform: scaleX(1);
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+  }
+
+  ::selection {
+    background: var(--color-fg);
+    color: var(--color-inverse);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-fg);
+    outline-offset: 2px;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
   }
 }
 
-/* ---- Base ---- */
-:root {
-  color-scheme: dark;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  background: var(--color-bg-primary);
-  color: var(--color-text-primary);
-  font-family: var(--font-body);
-  line-height: 1.7; /* generous for readability on dark */
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-
-/* Accessible focus — gold outline everywhere */
-:focus-visible {
-  outline: 2px solid var(--color-gold);
-  outline-offset: 2px;
-}
-
-/* Respect reduced motion globally as a safety net; components also
-   guard via useReducedMotion(). */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
+    animation-duration: 0s !important;
+    transition-duration: 0s !important;
     scroll-behavior: auto !important;
   }
 }
