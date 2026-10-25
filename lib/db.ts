@@ -12,23 +12,23 @@ function getUri(): string {
   return uri;
 }
 
-let dbPromise: Promise<Db> | null = null;
-
-function getOrCreateClient(): MongoClient {
-  const uri = getUri();
-
-  // Cached on globalThis in every environment: dev survives HMR, and prod
-  // must hand the same connected client to getDb() and getClient().
+// One client per process, cached on globalThis in every environment: dev
+// survives HMR, and prod shares the pool between the app and Better Auth.
+// The driver connects lazily on the first operation.
+export function getMongoClient(): MongoClient {
   if (!globalThis._mongoClient) {
-    globalThis._mongoClient = new MongoClient(uri, { maxPoolSize: 10 });
+    globalThis._mongoClient = new MongoClient(getUri(), { maxPoolSize: 10 });
   }
   return globalThis._mongoClient;
 }
 
+let dbPromise: Promise<Db> | null = null;
+
 export function getDb(): Promise<Db> {
   if (!dbPromise) {
-    const client = getOrCreateClient();
-    dbPromise = client.connect().then((c) => c.db());
+    dbPromise = getMongoClient()
+      .connect()
+      .then((c) => c.db());
   }
   return dbPromise;
 }
@@ -37,5 +37,5 @@ export function getDb(): Promise<Db> {
 // (`client.startSession()` + `session.withTransaction`).
 export async function getClient(): Promise<MongoClient> {
   await getDb();
-  return getOrCreateClient();
+  return getMongoClient();
 }

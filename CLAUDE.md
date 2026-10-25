@@ -8,6 +8,6 @@
 - Use Context7 (`ctx7` CLI / `find-docs` skill) for any library API you are unsure of (Next.js, Better Auth, MongoDB driver, Paystack, Cloudinary, Resend, Tailwind).
 - Run `/security-review` before commits touching auth, checkout, webhooks or admin.
 - Money is **integer kobo**. Paystack webhooks verify the HMAC-SHA512 signature over the raw body and are idempotent. Stock decrements are atomic and transactional.
-- Never read `.env*` files. Env var names are documented in `.env.example`.
+- Never read `.env*` files. Env var names are documented in `docs/env.md`.
 - Brand is spelled **MONTÈ** everywhere.
 - Audit skills (`web-design-guidelines`) are manual-only (`disable-model-invocation: true`).
