@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./.env*)",
+      "Read(./.audit/.env)",
+      "Read(./node_modules/**)",
+      "Read(./.next/**)",
+      "Read(./dist/**)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          { "type": "command", "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/check-ts.sh", "timeout": 120 }
+        ]
+      }
+    ]
+  }
+}
