@@ -10,8 +10,16 @@ export type Role = (typeof ROLES)[number];
 
 const client = getMongoClient();
 
+// Never derive the origin from the request Host header: reset/verify links are
+// built from it, so a spoofed Host could send tokens to another domain.
+const baseURL = process.env.BETTER_AUTH_URL ?? process.env.NEXT_PUBLIC_SITE_URL;
+if (!baseURL && process.env.NODE_ENV === "production") {
+  throw new Error("BETTER_AUTH_URL (or NEXT_PUBLIC_SITE_URL) must be set in production");
+}
+
 export const auth = betterAuth({
   appName: "MONTÈ",
+  baseURL,
   // Passing the client enables transactions (Atlas is a replica set).
   database: mongodbAdapter(client.db(), { client }),
 

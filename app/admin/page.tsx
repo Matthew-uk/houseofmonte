@@ -1,8 +1,11 @@
+import { requireAdminPage } from "@/lib/auth-guards";
 import { products } from "@/lib/models/product";
 import { collections } from "@/lib/models/collection";
 
 // Phase 5 replaces this with revenue / orders / low-stock widgets.
 export default async function AdminDashboard() {
+  // Layouts don't re-run on every navigation, so each admin page checks too.
+  await requireAdminPage();
   const [productCount, collectionCount] = await Promise.all([
     products().then((c) => c.countDocuments({ status: { $ne: "ARCHIVED" } })),
     collections().then((c) => c.countDocuments({ status: { $ne: "ARCHIVED" } })),

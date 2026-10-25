@@ -22,7 +22,7 @@ Payment, security and stock correctness beat brevity and design polish. When uns
 
 ## Server boundaries
 - Every route handler and server action validates its input with Zod `safeParse` and returns typed errors.
-- Admin: check `requireAdmin()` server-side in **every** action and route, in addition to the `proxy.ts`/middleware guard. Hiding UI is not authorisation.
+- Admin: call `requireAdmin()` (actions/routes) or `requireAdminPage()` (every page, not just the layout) from `lib/auth-guards.ts`, in addition to the `proxy.ts` cookie gate. Hiding UI is not authorisation.
 - Rate-limit login, register, forgot-password, the application form and checkout (`lib/rate-limit.ts`).
 - Never log secrets, full webhook headers, or personal data beyond the order number and email.
 
