@@ -93,7 +93,7 @@ export default async function ProductPage({ params, searchParams }: Props) {
   ].filter((d) => d.body);
 
   return (
-    <article className="md:grid md:grid-cols-[3fr_2fr]">
+    <article className="md:grid md:grid-cols-[auto_1fr]">
       <Gallery
         key={color.slug}
         label={`${product.name} in ${color.name}`}
@@ -105,7 +105,7 @@ export default async function ProductPage({ params, searchParams }: Props) {
         }))}
       />
 
-      <div className="px-3 pt-4 md:sticky md:top-24 md:self-start md:px-6 md:pt-6">
+      <div className="px-3 pt-4 md:max-w-xl md:px-6 md:pt-2 md:pb-12">
         <h1 className="text-title uppercase">{product.name}</h1>
         <p className="mt-1 text-ui">{formatNaira(colorPrice(product, color))}</p>
 
