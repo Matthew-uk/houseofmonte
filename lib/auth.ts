@@ -13,6 +13,10 @@ const vercelOrigins = [process.env.VERCEL_BRANCH_URL, process.env.VERCEL_URL]
   .map((host) => `https://${host}`);
 const isPreview = process.env.VERCEL_ENV === "preview";
 
+// The dev server moves to another port when its usual one is taken, and a login
+// from any port other than BETTER_AUTH_URL's would be refused. Never in production.
+const devOrigins = process.env.NODE_ENV === "development" ? ["http://localhost:*"] : [];
+
 const baseURL =
   (isPreview ? vercelOrigins[0] : undefined) ??
   process.env.BETTER_AUTH_URL ??
@@ -36,7 +40,7 @@ const client = getMongoClient();
 export const auth = betterAuth({
   appName: "MONTÈ",
   baseURL,
-  trustedOrigins: isPreview ? vercelOrigins : [],
+  trustedOrigins: isPreview ? vercelOrigins : devOrigins,
   // Passing the client enables transactions (Atlas is a replica set).
   database: mongodbAdapter(client.db(), { client }),
 
