@@ -1,31 +1,28 @@
 // Single source of truth for all SEO / structured-data values.
-// Search-facing brand name is "Monte Deluxe"; the visual wordmark stays MONTÉ.
+// Brand is MONTÈ everywhere; "Monte Deluxe" stays as an alternate name for search.
 
 import { SOCIAL } from "@/lib/constants";
 
-export const SITE_URL = "https://montedeluxe.com";
+export const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://montedeluxe.com"
+).replace(/\/$/, "");
 
-export const SEO_NAME = "Monte Deluxe";
-export const SEO_ALTERNATE_NAMES = ["MONTÉ", "Monte", "Monte Deluxe Nigeria"];
+export const SEO_NAME = "MONTÈ";
+export const SEO_ALTERNATE_NAMES = ["Monte Deluxe", "Monte", "House of Monte"];
 
-export const SITE_TITLE = "Monte Deluxe — Luxury Fashion Brand in Port Harcourt, Nigeria";
+export const SITE_TITLE = "MONTÈ";
 export const SITE_DESCRIPTION =
-  "Monte Deluxe (MONTÉ) is a premium Nigerian fashion brand in Port Harcourt, Rivers State, crafting luxury streetwear, bespoke clothing and high-quality apparel for men and women. Collection 001 drops July 22, 2026.";
+  "MONTÈ is a clothing label from Port Harcourt, Nigeria. Shop the latest pieces online with delivery across Nigeria.";
 
 export const KEYWORDS = [
+  "MONTÈ",
   "Monte Deluxe",
-  "MONTÉ",
+  "House of Monte",
   "Monte clothing",
-  "Monte fashion",
-  "Monte Deluxe Nigeria",
-  "Monte Deluxe Port Harcourt",
-  "luxury clothing Port Harcourt",
-  "premium fashion Rivers State",
-  "fashion brand Port Harcourt",
-  "Nigerian luxury fashion brand",
-  "luxury streetwear Nigeria",
-  "bespoke clothing Nigeria",
-  "designer clothing Nigeria",
+  "clothing brand Port Harcourt",
+  "Nigerian clothing label",
+  "streetwear Nigeria",
+  "buy clothes online Nigeria",
 ];
 
 export const SOCIAL_PROFILES = [SOCIAL.instagram, SOCIAL.tiktok];
@@ -37,28 +34,16 @@ interface BusinessInfo {
   region: string;
   country: string;
   telephone: string;
-  latitude: number;
-  longitude: number;
   foundingDate: string;
-  founder: string;
-  openingHours: { days: string[]; opens: string; closes: string }[];
-  priceRange: string;
 }
 
 export const BUSINESS: BusinessInfo = {
-  email: "hello@montedeluxe.com",
-  // TODO(owner): confirm street address, phone, exact coordinates,
-  // founder name, founding date and opening hours.
-  streetAddress: "", // e.g. "12 Example Road, GRA Phase 2"
+  email: SOCIAL.email,
+  // TODO(owner): confirm street address and phone.
+  streetAddress: "",
   locality: "Port Harcourt",
   region: "Rivers State",
   country: "NG",
-  telephone: "", // e.g. "+234 800 000 0000"
-  // Port Harcourt city centre — replace with the store's exact coordinates.
-  latitude: 4.8156,
-  longitude: 7.0498,
-  foundingDate: "2024", // inferred from "Two Year Anniversary" (July 2026)
-  founder: "", // e.g. "Full Name"
-  openingHours: [],
-  priceRange: "₦₦₦",
+  telephone: "",
+  foundingDate: "2024",
 };

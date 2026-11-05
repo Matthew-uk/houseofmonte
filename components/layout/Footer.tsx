@@ -1,45 +1,38 @@
-import { FaInstagram, FaTiktok, FaEnvelope } from "react-icons/fa6";
-import { BRAND, SOCIAL } from "@/lib/constants";
-import { Reveal } from "@/components/ui/Reveal";
+import Link from "next/link";
+import { Logo } from "@/components/layout/Logo";
+import { SocialLinks } from "@/components/layout/SocialLinks";
+import { BRAND } from "@/lib/constants";
 
-const links = [
-  { label: "Instagram", href: SOCIAL.instagram, Icon: FaInstagram },
-  { label: "TikTok", href: SOCIAL.tiktok, Icon: FaTiktok },
-  { label: "Email", href: SOCIAL.email, Icon: FaEnvelope },
-];
+const HEADING = "mb-2 text-meta uppercase text-muted";
 
+// DESIGN.md §5 Footer: a designed close, with the logo returning large.
 export function Footer() {
   return (
-    <footer className="border-t border-border-subtle">
-      <Reveal standalone>
-        <div className="mx-auto flex max-w-[1100px] flex-col items-center gap-5 px-5 py-8 text-tiny uppercase tracking-wider text-text-secondary sm:flex-row sm:justify-between sm:px-10">
-          <div className="flex flex-col items-center gap-1.5 sm:items-start">
-            <span>© {BRAND} 2026</span>
-            <address className="not-italic">
-              Port Harcourt · Rivers State · Nigeria
-            </address>
-          </div>
-          <nav className="flex items-center gap-7">
-            {links.map(({ label, href, Icon }) => {
-              const isMailto = href.startsWith("mailto:");
-              return (
-                <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  {...(isMailto
-                    ? {}
-                    : { target: "_blank", rel: "noopener noreferrer" })}
-                  className="transition-colors duration-200 hover:text-gold"
-                >
-                  <Icon size={16} aria-hidden />
-                </a>
-              );
-            })}
+    <footer className="mt-20 border-t border-line px-3 pt-10 md:px-4 xl:px-6">
+      <div className="flex flex-col gap-10 md:flex-row md:justify-between">
+        <Logo className="w-56 md:w-72 xl:w-96" sizes="(min-width: 1280px) 384px, (min-width: 768px) 288px, 224px" />
+        <div className="grid gap-8 sm:grid-cols-2 md:gap-16">
+          <nav aria-label="Footer">
+            <h2 className={HEADING}>Shop</h2>
+            <Link
+              href="/shop"
+              className="inline-flex min-h-11 items-center text-ui uppercase transition-opacity duration-150 hover:opacity-70"
+            >
+              All pieces
+            </Link>
           </nav>
-          <span>All Rights Reserved</span>
+          <div>
+            <h2 className={HEADING}>Contact</h2>
+            <SocialLinks />
+          </div>
         </div>
-      </Reveal>
+      </div>
+      <div className="mt-10 flex flex-wrap justify-between gap-x-6 gap-y-1 border-t border-line py-4 text-meta uppercase text-muted">
+        <p>
+          © {new Date().getFullYear()} {BRAND}
+        </p>
+        <p>Port Harcourt, Nigeria</p>
+      </div>
     </footer>
   );
 }

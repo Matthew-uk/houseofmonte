@@ -6,8 +6,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      // Next internals never need crawling.
-      disallow: ["/_next/"],
+      disallow: ["/_next/", "/admin", "/api/"],
     },
     sitemap: `${SITE_URL}/sitemap.xml`,
     host: SITE_URL,
