@@ -6,6 +6,15 @@ import { authClient } from "@/lib/auth-client";
 import { Field } from "@/components/forms/Field";
 import { Button } from "@/components/forms/Button";
 
+// Only a credentials failure may read as a wrong password, or a broken deploy
+// sends the admin chasing a password that was never checked.
+function loginErrorMessage(error: { status: number; code?: string }) {
+  if (error.status === 429) return "Too many attempts. Try again in a minute.";
+  if (error.code === "INVALID_ORIGIN") return "Logging in isn't allowed from this address.";
+  if (error.status >= 500) return "Something went wrong on our side. Try again.";
+  return "Email or password is incorrect.";
+}
+
 export function LoginForm({ next }: { next: string }) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
@@ -23,11 +32,7 @@ export function LoginForm({ next }: { next: string }) {
     });
     if (error) {
       setPending(false);
-      setError(
-        error.status === 429
-          ? "Too many attempts. Try again in a minute."
-          : "Email or password is incorrect.",
-      );
+      setError(loginErrorMessage(error));
       return;
     }
     router.replace(next);

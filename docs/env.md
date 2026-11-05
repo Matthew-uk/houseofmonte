@@ -6,7 +6,7 @@ Set these in `.env.local` for development and in the Vercel project for preview 
 |---|---|---|---|
 | `MONGODB_URI` | yes | `lib/db.ts`, Better Auth | Atlas SRV URI including the database name. Atlas is a replica set, which stock transactions need. |
 | `BETTER_AUTH_SECRET` | yes | Better Auth | At least 32 chars: `openssl rand -base64 32`. Rotating it signs everyone out. |
-| `BETTER_AUTH_URL` | production | Better Auth | Base URL, e.g. `http://localhost:3000`, `https://montedeluxe.com`. Vercel previews ignore it and use their own URL. |
+| `BETTER_AUTH_URL` | production | Better Auth | Base URL. Local: `http://localhost:3000` (development also accepts logins from any `localhost` port). Production: `https://www.montedeluxe.com`, the address the site actually serves from, because logins from any other origin get a 403. Vercel previews ignore it and use their own URL. |
 | `NEXT_PUBLIC_SITE_URL` | production | SEO, canonical links | e.g. `https://montedeluxe.com` (no trailing slash). |
 | `ADMIN_EMAIL` | seed | `scripts/seed.ts` | The admin account. Public sign-up is disabled, so this is the only way in. |
 | `ADMIN_PASSWORD` | seed | `scripts/seed.ts` | Admin password (min 8). Re-running the seed resets the admin to this value, which is how to recover a lost password. |
