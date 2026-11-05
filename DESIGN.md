@@ -75,8 +75,10 @@ One family: **Lexend** (variable, via `next/font`), loaded once as `--font-sans`
 - Mobile 2 columns, `md` 3 columns, `xl` 4 columns. Ordered by `sortOrder`, then newest first.
 
 ### Gallery (product page)
-- Desktop: a vertical stack of full-width 4:5 images in the left column (about 60% width), with a sticky info column on the right.
-- Mobile: a horizontal scroll-snap carousel (native swipe, no JS library) with a `1 / 5` counter in `text-meta`.
+- A carousel at every width: one 4:5 image at a time on native scroll-snap (no JS library, no autoplay), with a `1 / 5` counter in `text-meta` on the image.
+- Desktop: a sticky gallery sized to fit under the header (at most 60vw wide), a vertical thumbnail rail on its left, previous and next arrows beside the counter, and arrow keys. The info column scrolls on the right.
+- Mobile: full-bleed native swipe, with a row of thumbnails below the image.
+- A product with one image shows no controls. The selected thumbnail is at full opacity and the rest at 50%.
 - Changing colour swaps the whole image set and the sizes. The first image uses `priority`.
 
 ### Colour selector
@@ -131,10 +133,11 @@ One family: **Lexend** (variable, via `next/font`), loaded once as `--font-sans`
 
 ## 7. Motion
 
-Only these three motions are allowed:
+Only these four motions are allowed:
 1. Cart drawer slide (transform, 250ms).
 2. Second-image fade on tile hover (opacity, 200ms, desktop only).
 3. Opacity on hover (150ms).
+4. Gallery slide when an arrow or thumbnail is used (native `scroll-behavior: smooth`).
 
 `@media (prefers-reduced-motion: reduce)`: all durations go to 0. No scroll-triggered reveals, parallax, marquees, scroll-jacking, page transitions or animated counters. No motion library (framer-motion is removed).
 
