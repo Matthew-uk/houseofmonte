@@ -27,3 +27,8 @@ export function nairaToKobo(input: string | number): number {
   if (!Number.isFinite(n) || n < 0) throw new Error(`Invalid naira amount: ${input}`);
   return assertKobo(Math.round(n * 100));
 }
+
+/** 4500000 -> 45000, for prefilling admin forms that take whole naira. */
+export function koboToWholeNaira(kobo: number): number {
+  return Math.round(assertKobo(kobo) / 100);
+}

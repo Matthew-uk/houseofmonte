@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { inter } from "@/lib/fonts";
+import { lexend } from "@/lib/fonts";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   SITE_URL,
@@ -22,7 +22,6 @@ export const metadata: Metadata = {
   creator: SEO_NAME,
   publisher: SEO_NAME,
   category: "fashion",
-  icons: { icon: "/favicon.ico" },
   formatDetection: { telephone: false },
   openGraph: {
     type: "website",
@@ -50,7 +49,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} antialiased`}>
+    <html lang="en" className={`${lexend.variable} antialiased`}>
       <body className="min-h-dvh font-sans">
         {children}
         <JsonLd />

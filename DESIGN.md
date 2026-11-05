@@ -3,6 +3,10 @@
 The written design system for the MONTÈ store. Source: BUILD_SPEC §2. Read this before generating or changing any UI.
 If a design skill (tasteskill) or any other guidance contradicts this file, **this file wins**.
 
+> **Owner decision (2026-11-05):** Lexend replaces Inter across the platform.
+>
+> **Current scope (2026-11-05):** no cart, checkout or Face of MONTÈ yet. The header shows only `SHOP`, the footer drops the policy and account links, and `ENQUIRE` (a prefilled email) stands in for `ADD TO CART`. The cart drawer and those links return with checkout.
+
 ---
 
 ## 1. Visual theme
@@ -32,7 +36,7 @@ Contrast: `fg` on `bg` and `muted` on `bg` both pass WCAG AA for body sizes. Do 
 
 ## 3. Typography
 
-One family: **Inter** (variable, via `next/font`), loaded once as `--font-sans`. No display fonts, serifs or monospace.
+One family: **Lexend** (variable, via `next/font`), loaded once as `--font-sans`. No display fonts, serifs or monospace.
 
 | Step | Size / line-height | Use |
 |---|---|---|
@@ -62,9 +66,9 @@ One family: **Inter** (variable, via `next/font`), loaded once as `--font-sans`.
 - Sticky top, background `bg`, 1px `line` bottom border only after scroll. No blur, no transparency over images.
 
 ### Product tile
-- Image (4:5, `next/image`, `sizes="(min-width:1280px) 25vw, (min-width:768px) 33vw, 50vw"`), then the name (`text-ui`, 500), then the price (`text-ui`, `muted`) directly beneath.
+- Image (4:5, `next/image`, `sizes="(min-width:1280px) 25vw, (min-width:768px) 33vw, 50vw"`), then a caption: name (`text-ui`, 500, underlined on hover) left and price (`text-ui`, `muted`) right on one line, then the colour swatches when the product has more than one colour.
 - Desktop hover: the second image fades in over the first (opacity 0→1, 200ms). Touch devices keep image 1.
-- Sold out: the `SOLD OUT` label in `accent` replaces the price. The tile stays visible and links to the product.
+- Sold out: the `SOLD OUT` label in `accent` replaces the price and the photo dims to 60%. The tile stays visible and links to the product.
 - The whole tile is one link. Focus ring sits on the tile.
 
 ### Product grid
@@ -102,7 +106,13 @@ One family: **Inter** (variable, via `next/font`), loaded once as `--font-sans`.
 - Nigerian states select on checkout. The country is fixed to Nigeria in v1.
 
 ### Footer
-- One quiet block in `text-meta`: `INSTAGRAM  TIKTOK  HELLO@MONTEDELUXE.COM  SHIPPING & RETURNS  TERMS  PRIVACY  ACCOUNT  © 2026 MONTÈ`.
+- A designed close: the logo large on the left; on the right, contact (Instagram, TikTok, email, each a monochrome brand icon with its handle) and shop links. Below a hairline: `© YEAR MONTÈ` and `PORT HARCOURT, NIGERIA` in `text-meta`.
+
+### Collection card
+- Cover image (4:5), then the collection name (`text-ui`, 500) and `SHOP` on the right. Shown below the product grid on the home page; never above it.
+
+### Admin login
+- Split screen from `md`: a full-height photograph on the left, on the right the logo and the form. Phone: logo and form only.
 
 ### Admin table
 - Plain and fast. It doesn't have to match the storefront, but uses the same tokens. `text-body` 13px, rows 40px, `line` row rules, sticky header, `surface` row hover. Status shows as text, with no coloured pills except `accent` for failed or needs-attention states.
@@ -145,7 +155,7 @@ Only these three motions are allowed:
 
 **Do:** let the photos be large; keep copy short and in caps; keep one action per screen; show sold-out items; use hairlines sparingly.
 
-**Don't:** gradients, background patterns, textures, grain, glows, shadows, rounded corners, cards, badges, stars, reviews, icons in tinted squares, gold, serif display type, marquees, tickers, countdowns, parallax, scroll reveals, carousels with autoplay, pop-ups, newsletter modals, decorative dividers, emoji. Never copy Corteiz assets, copy or branding.
+**Don't:** gradients, background patterns, textures, grain, glows, shadows, rounded corners, cards, badges, stars, reviews, icons in tinted squares, coloured brand icons (social and email icons are monochrome and always carry a text label), gold, serif display type, marquees, tickers, countdowns, parallax, scroll reveals, carousels with autoplay, pop-ups, newsletter modals, decorative dividers, emoji. Never copy Corteiz assets, copy or branding.
 
 ## 11. Agent prompt guide
 

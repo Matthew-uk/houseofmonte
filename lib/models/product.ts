@@ -1,20 +1,12 @@
 import type { Collection, ObjectId } from "mongodb";
+import type { ImageKind, ProductStatus } from "@/lib/catalog-constants";
 import { getDb } from "@/lib/db";
 
-export const PRODUCT_STATUSES = ["DRAFT", "ACTIVE", "ARCHIVED"] as const;
-export type ProductStatus = (typeof PRODUCT_STATUSES)[number];
+export type { ImageKind, ProductStatus };
 
-export const IMAGE_KINDS = ["FRONT", "BACK", "DETAIL", "MODEL", "OTHER"] as const;
-export type ImageKind = (typeof IMAGE_KINDS)[number];
-
-export const STANDARD_SIZES = ["XS", "S", "M", "L", "XL", "XXL", "ONE SIZE"] as const;
-
-/** A stored image (Cloudinary). `url` is the delivery URL of the original. */
+/** A stored image. `url` is the Cloudinary delivery URL from the upload API. */
 export interface ImageAsset {
   url: string;
-  publicId: string;
-  width: number;
-  height: number;
   alt: string;
   blurDataUrl?: string;
 }

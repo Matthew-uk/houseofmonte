@@ -1,5 +1,7 @@
 # MONTÈ — E-commerce Rebuild Spec
 
+> **Scope change, 2026-11-05 (overrides everything below):** customer logins, cart, checkout and payments are **not being built for now**. Current scope is the admin panel (products, colours, images, stock, collections) and the storefront that displays them. Images upload through `https://roomy-backend-duq2.onrender.com/api/upload`, not signed Cloudinary uploads. Face of MONTÈ and the EVENT link are also on hold. Sections 3.5–3.8, 4.1–4.3, 4.6, 4.7 and 5 are parked.
+>
 > Owner decisions recorded 2026-10-25 (these override the spec text below where they differ):
 > - **Database: MongoDB** (native driver), not PostgreSQL/Prisma.
 > - **Auth: Better Auth** (MongoDB adapter).

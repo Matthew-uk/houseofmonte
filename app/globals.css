@@ -16,7 +16,7 @@
   --color-transparent: transparent;
   --color-current: currentColor;
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-lexend), ui-sans-serif, system-ui, sans-serif;
 
   /* Type steps (DESIGN.md §3). Uppercase/tracking applied per use. */
   --text-meta: 11px;

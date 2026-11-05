@@ -23,6 +23,12 @@ const IMAGES = {
   "tank-white-2": ["instagram4.png", "centre"],
   "tank-black-1": ["instagram7.PNG", "centre"],
   "tank-black-2": ["img1.JPG", "north"],
+  "polo-white-1": ["instagram11.JPG", "centre"],
+  "polo-white-2": ["instagram1.png", "centre"],
+  "script-tank-1": ["instagram7.PNG", "centre"],
+  "script-tank-2": ["img2.JPG", "centre"],
+  "denim-1": ["instagram8.JPG", "centre"],
+  "denim-2": ["instagram10.png", "centre"],
 };
 
 await mkdir(OUT, { recursive: true });

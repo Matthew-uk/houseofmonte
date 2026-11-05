@@ -11,15 +11,10 @@ export const getSession = cache(async (): Promise<Session | null> => {
   return auth.api.getSession({ headers: await headers() });
 });
 
-export async function requireUser(next = "/account"): Promise<Session> {
-  const session = await getSession();
-  if (!session) redirect(`/account/login?next=${encodeURIComponent(next)}`);
-  return session;
-}
-
 /** For admin pages: redirects anonymous users to login, others to home. */
 export async function requireAdminPage(next = "/admin"): Promise<Session> {
-  const session = await requireUser(next);
+  const session = await getSession();
+  if (!session) redirect(`/admin/login?next=${encodeURIComponent(next)}`);
   if (session.user.role !== "ADMIN") redirect("/");
   return session;
 }

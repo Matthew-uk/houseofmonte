@@ -7,6 +7,8 @@ description: Rules for the MONTÈ store's backend and commerce logic — MongoDB
 
 Stack: Next.js App Router (TypeScript) · MongoDB (native `mongodb` driver via `lib/db.ts`) · Better Auth (MongoDB adapter, `role`: `CUSTOMER` | `ADMIN`) · Paystack (NGN) · Resend · Cloudinary · Zod · Tailwind v4.
 
+> **Current scope (2026-11-05):** admin panel and catalogue only. Customer accounts, cart, checkout and Paystack are parked; the rules for them below apply when that work resumes. Better Auth has public sign-up disabled and serves the admin only.
+
 > This skill is a living document. Update it when the real code establishes a pattern (file paths, helper names).
 
 ## Precedence
@@ -40,8 +42,9 @@ See `references/payments.md`. Summary: the server computes totals, `initialize` 
 - The first admin comes from the seed script using `ADMIN_EMAIL`. Roles are changed only by admins, and every change is audit-logged.
 
 ## Uploads
-- Signed direct-to-Cloudinary uploads. Server-side re-validation of type (jpeg/png/webp) and size (≤ 10 MB).
-- Face of MONTÈ applicant photos use `type: "authenticated"`, and only admins see them, through short-lived signed URLs.
+- Browsers post directly to the upload API (`lib/upload.ts`, field `images`, response `{ uploaded: [{ url, originalName }] }`) because Vercel caps function bodies at 4.5 MB. Client limit: JPEG/PNG/WebP, ≤ 10 MB (larger files fail upstream with a generic 500).
+- Image URLs arrive from the browser, so Zod re-checks them with `isAllowedImageUrl` before they reach the DB.
+- The API has no delete endpoint: removing an image only removes the reference.
 
 ## UI
 UI follows `DESIGN.md` (see `references/design.md` for the short version).

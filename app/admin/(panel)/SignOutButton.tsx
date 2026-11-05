@@ -8,10 +8,10 @@ export function SignOutButton() {
   return (
     <button
       type="button"
-      className="mt-1 inline-flex min-h-9 items-center uppercase hover:underline"
+      className="mt-1 inline-flex min-h-11 items-center uppercase hover:underline"
       onClick={async () => {
         await authClient.signOut();
-        router.replace("/");
+        router.replace("/admin/login");
         router.refresh();
       }}
     >

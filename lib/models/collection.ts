@@ -1,9 +1,7 @@
 import type { Collection, ObjectId } from "mongodb";
+import type { CollectionStatus } from "@/lib/catalog-constants";
 import { getDb } from "@/lib/db";
 import type { ImageAsset } from "@/lib/models/product";
-
-export const COLLECTION_STATUSES = ["DRAFT", "ACTIVE", "ARCHIVED"] as const;
-export type CollectionStatus = (typeof COLLECTION_STATUSES)[number];
 
 export interface CollectionDoc {
   _id: ObjectId;
